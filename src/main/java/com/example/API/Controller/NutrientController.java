@@ -3,6 +3,7 @@ package com.example.API.Controller;
 import com.example.API.Entities.Ingredients;
 import com.example.API.Entities.Nutrients;
 import com.example.API.Entities.Product;
+import com.example.API.Exceptions.NutrientException;
 import com.example.API.Services.NutrientService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

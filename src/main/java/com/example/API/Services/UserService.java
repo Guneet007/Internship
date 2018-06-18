@@ -10,6 +10,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import com.example.API.Exceptions.UserException;
 
 @Service
 public class UserService {
@@ -21,6 +22,8 @@ public class UserService {
         List<User> users=new ArrayList<>();
         userRepository.findAll()
                 .forEach(users::add);
+        if(users.isEmpty())
+            throw new UserException("No User Found");
         return users;
     }
 
@@ -36,6 +39,8 @@ public class UserService {
 
     public User getUser(BigInteger id){
         Optional<User> users = userRepository.findById(id);
+        if(!users.isPresent())
+            throw new UserException("User with id= "+id+" not Found" );
         return  users.get();
     }
 

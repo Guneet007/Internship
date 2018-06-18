@@ -1,6 +1,7 @@
 package com.example.API.Services;
 
 import com.example.API.Entities.Nutrients;
+import com.example.API.Exceptions.NutrientException;
 import com.example.API.Repository.NutrientRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -22,10 +23,14 @@ public class NutrientService {
 
     public Nutrients getNutrientById(BigInteger id) {
         Optional<Nutrients>nutrients= nutrientRepository.findById(id);
+        if(!nutrients.isPresent())
+            throw new NutrientException("No nutrient found with id ="+id);
         return nutrients.get();
     }
 
     public List<Nutrients>getAllNutrientsByIngredients(BigInteger ingredientId){
+        if(nutrientRepository.findAllByIngredientsId(ingredientId).isEmpty())
+            throw new NutrientException("No nutrient found for ingredient id="+ingredientId+" or the ingredient does not exist");
         return nutrientRepository.findAllByIngredientsId(ingredientId);
     }
 
@@ -34,6 +39,8 @@ public class NutrientService {
     }
 
     public List<Nutrients>getAllNutrientsOfProduct(BigInteger ingredientId,BigInteger productId){
+        if(nutrientRepository.findAllByProductId(productId).isEmpty())
+            throw new NutrientException("No nutrient found for product id="+productId);
         return nutrientRepository.findAllByProductId(productId);
     }
 
@@ -41,6 +48,8 @@ public class NutrientService {
         List<Nutrients> nutrients=new ArrayList<>();
         nutrientRepository.findByIngredientsId(id)
                 .forEach(nutrients::add);
+        if(nutrients.isEmpty())
+            throw new NutrientException("No nutrient found");
         return nutrients;
     }
 

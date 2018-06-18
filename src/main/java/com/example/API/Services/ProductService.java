@@ -1,6 +1,7 @@
 package com.example.API.Services;
 
 import com.example.API.Entities.Product;
+import com.example.API.Exceptions.ProductException;
 import com.example.API.Repository.ProductRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -22,11 +23,15 @@ public class ProductService {
     }
 
     public List<Product>getProductsByOrder(BigInteger orderId) {
+        if(productRepository.findAllByOrdersId(orderId).isEmpty())
+            throw new ProductException("No product Found for order id="+orderId+"Or the order Id does not exist");
         return productRepository.findAllByOrdersId(orderId);
     }
 
     public Product getProductById(BigInteger id) {
         Optional<Product> product= productRepository.findById(id);
+        if(!product.isPresent())
+            throw new ProductException("No product found with id="+id);
         return product.get();
     }
 
@@ -38,6 +43,8 @@ public class ProductService {
         List<Product> products=new ArrayList<>();
         productRepository.findByOrdersId(id)
                 .forEach(products::add);
+        if(products.isEmpty())
+            throw new ProductException("No product Found for order id="+id);
         return products;
     }
 

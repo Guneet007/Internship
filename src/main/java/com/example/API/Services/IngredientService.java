@@ -1,6 +1,7 @@
 package com.example.API.Services;
 
 import com.example.API.Entities.Ingredients;
+import com.example.API.Exceptions.IngredientException;
 import com.example.API.Repository.IngredientRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -23,10 +24,14 @@ public class IngredientService {
 
     public  Ingredients getIngredientbyId(BigInteger id){
         Optional<Ingredients> ingredients= ingredientRepository.findById(id);
+        if(!ingredients.isPresent())
+            throw new IngredientException("No ingredient found by Id="+id);
         return ingredients.get();
     }
 
     public List<Ingredients>getAllIngredientsById(BigInteger id) {
+        if (ingredientRepository.findAllByProductId(id).isEmpty())
+            throw new IngredientException("No ingredient found for product Id="+id+" or the product does not exist");
         return ingredientRepository.findAllByProductId(id);
     }
 
@@ -34,6 +39,8 @@ public class IngredientService {
         List<Ingredients> ingredients=new ArrayList<>();
         ingredientRepository.findByProductId(id)
                 .forEach(ingredients::add);
+        if(ingredients.isEmpty())
+            throw new IngredientException("No ingredient found");
         return ingredients;
     }
 

@@ -1,6 +1,7 @@
 package com.example.API.Services;
 
 import com.example.API.Entities.Orders;
+import com.example.API.Exceptions.OrderException;
 import com.example.API.Repository.OrdersRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -21,6 +22,8 @@ public class OrdersService {
 
     public Orders getOrderById(BigInteger id) {
        Optional<Orders> order= orderRepository.findById(id);
+       if(!order.isPresent())
+           throw new OrderException("Order with id="+id+" not found");
        return order.get();
     }
 
@@ -28,6 +31,8 @@ public class OrdersService {
         List<Orders> orders=new ArrayList<>();
         orderRepository.findByUserId(id)
                 .forEach(orders::add);
+        if(orders.isEmpty())
+            throw new OrderException("No order found for user with id="+id);
         return orders;
     }
 
@@ -37,6 +42,8 @@ public class OrdersService {
 
     public Orders getOrder(BigInteger id){
         Optional<Orders> order= orderRepository.findById(id);
+        if(!order.isPresent())
+            throw new OrderException("No Order for with id="+id);
         return order.get();
     }
 
