@@ -2,7 +2,6 @@ package com.example.API.Entities;
 
 import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigInteger;
@@ -23,7 +22,7 @@ public class User {
     @Range(min = 6400000000L ,max=9999999999L)
     private Long phoneNumber;
 
-    @NotEmpty(message = "Address is compulsary")
+    @NotNull
     private String address;
 
     public User(){}

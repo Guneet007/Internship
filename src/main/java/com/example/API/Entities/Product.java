@@ -5,16 +5,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
-import java.security.Timestamp;
-import java.security.cert.CertPath;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateEncodingException;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import static java.lang.System.*;
 
 @Entity
 public class Product {
@@ -22,14 +13,20 @@ public class Product {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private BigInteger id;
 
-    @NotNull(message = "Price is compulsary")
+    @NotNull
     @Range(min=0)
     private double price;
 
     @ManyToOne
+    @JoinColumn(name = "orders_id")
     private Orders orders;
 
     public Product(){}
+    public Product(BigInteger productId,double price){
+        super();
+        this.id = productId;
+        this.price = price;
+    }
     public Product(BigInteger id, double price,BigInteger orderId,BigInteger userId) {
         super();
         this.id = id;
@@ -55,9 +52,9 @@ public class Product {
         this.price = price;
   }
 
-    public Orders getOrders() {
-        return orders;
-    }
+   // public Orders getOrders() {
+     //   return orders;
+    //}
 
     public void setOrders(Orders orders) {
         this.orders = orders;

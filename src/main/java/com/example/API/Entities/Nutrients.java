@@ -17,19 +17,12 @@ public class Nutrients {
     @Pattern(regexp="^[A-Za-z]*[A-Za-z-'. ]*[A-Za-z]*$",message = "Name has invalid characters")
     private String name;
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     @NotNull
     @Range(min = 0,max = 1000)
     private double calories;
 
     @ManyToOne
+    @JoinColumn(name = "ingredients_id")
     private Ingredients ingredients;
     @ManyToOne
     private Product product;
@@ -79,6 +72,10 @@ public class Nutrients {
 
     public void setIngredients(Ingredients ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
 }

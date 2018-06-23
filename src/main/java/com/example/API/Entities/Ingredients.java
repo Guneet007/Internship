@@ -1,13 +1,10 @@
 package com.example.API.Entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.math.BigInteger;
-import java.util.Set;
+
 
 @Entity
 public class Ingredients {
@@ -19,9 +16,22 @@ public class Ingredients {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     public Ingredients(){}
+
+    public Ingredients(BigInteger id, String name,BigInteger productId) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.product=new Product(productId,0.0);
+    }
+    public Ingredients(BigInteger id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
     public Ingredients(BigInteger id, String name,BigInteger productId,BigInteger orderId,BigInteger userid) {
         super();
         this.id = id;
@@ -46,9 +56,9 @@ public class Ingredients {
         this.name = name;
     }
 
-    public Product getProduct() {
-        return product;
-    }
+//    public Product getProduct() {
+//        return product;
+//    }
 
     public void setProduct(Product product) {
         this.product = product;

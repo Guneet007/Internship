@@ -4,10 +4,9 @@ package com.example.API.Entities;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Date;
-import java .sql.Timestamp;
+import java.util.List;
 
 @Entity
 public class Orders {
@@ -31,6 +30,7 @@ public class Orders {
 
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Orders(){}

@@ -1,14 +1,18 @@
 package com.example.API.Services;
 
 import com.example.API.Entities.Orders;
+import com.example.API.Entities.Product;
 import com.example.API.Exceptions.OrderException;
 import com.example.API.Repository.OrdersRepository;
 import javassist.NotFoundException;
+import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -18,6 +22,7 @@ public class OrdersService {
 
     public Iterable<Orders> getAllOrders(){
         return orderRepository.findAll();
+
     }
 
     public Orders getOrderById(BigInteger id) {
@@ -34,6 +39,11 @@ public class OrdersService {
         if(orders.isEmpty())
             throw new OrderException("No order found for user with id="+id);
         return orders;
+    }
+
+    public  List<Orders> getOrdersByDate(Date date1, Date date2)
+    {
+        return orderRepository.findAllByDateBetween(date1,date2);
     }
 
     public Orders addOrder(Orders order) {

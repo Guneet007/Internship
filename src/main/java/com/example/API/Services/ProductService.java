@@ -72,7 +72,23 @@ public class ProductService {
         }
         return productRepository.save(productFromDB);
     }
+    public Product updateProduct(Product product, BigInteger id) throws Exception {
+        Product productFromDB = getProduct(id);
+        if(product !=null) {
+            BeanUtils.copyProperties(product,productFromDB);
+            productFromDB.setId(id);
+        } else {
+            throw new NotFoundException("not found");
+        }
+        return productRepository.save(productFromDB);
+    }
 
+    public Product getProduct(BigInteger productId) {
+        Optional<Product> product= productRepository.findById(productId);
+        if(!product.isPresent())
+            throw new ProductException("No product found with id="+productId);
+        return product.get();
+    }
     public void deleteProduct(BigInteger id) {
         productRepository.deleteById(id);
     }
