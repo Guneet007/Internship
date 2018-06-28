@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 
-
+@RequestMapping("/rest")
 @RestController
 public class UserController {
 

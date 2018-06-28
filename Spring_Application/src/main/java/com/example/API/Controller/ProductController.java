@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
-
+@RequestMapping("/rest")
 @RestController
 public class ProductController {
 
@@ -59,6 +59,8 @@ public class ProductController {
     public Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
+
+
     @ApiOperation(value="Adds a List of new Products")
     @RequestMapping(method = RequestMethod.POST,value = "/products")
     public List<Product> addProduct(@RequestBody List<Product> product){

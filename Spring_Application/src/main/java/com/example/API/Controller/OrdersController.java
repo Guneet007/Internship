@@ -6,13 +6,17 @@ import com.example.API.Entities.User;
 import com.example.API.Services.OrdersService;
 import com.example.API.Services.ProductService;
 import io.swagger.annotations.ApiOperation;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+@RequestMapping("/rest")
 @RestController
 public class OrdersController {
 
@@ -47,9 +51,20 @@ public class OrdersController {
     }
 
     @ApiOperation(value="Search an order")
-    @RequestMapping("/order")
-    public List<Orders> getOrderByDate(@RequestBody Date date1,@RequestBody Date date2){
-        return ordersService.getOrdersByDate(date1,date2);
+    @RequestMapping(method = RequestMethod.POST,value=("/order")
+    )    public List<Orders> getOrderByDate(@RequestBody List<String> Date)throws  Exception{
+
+        JSONObject jo = new JSONObject(Date); //
+        JSONArray ja = jo.getJSONArray("date"); // get the JSONArray
+        List<String> dates = new ArrayList<>();
+
+        for(int i=0;i<ja.length();i++){
+            dates.add(ja.getString(i)); // iterate the JSONArray and extract the keys
+        }
+
+        Date Date1=new SimpleDateFormat("yyyy-MM-dd").parse(dates.get(0));
+        Date Date2=new SimpleDateFormat("yyyy-MM-dd").parse(dates.get(1));
+        return ordersService.getOrdersByDate(Date1,Date2);
     }
 
     @ApiOperation(value="Adds a new Order")

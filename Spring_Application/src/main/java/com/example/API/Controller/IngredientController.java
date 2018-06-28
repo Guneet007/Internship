@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.util.List;
 
-
+@RequestMapping("/rest")
 @RestController
 public class IngredientController {
 

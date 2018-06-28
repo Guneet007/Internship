@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.util.List;
 
-
+@RequestMapping("/rest")
 @RestController
 public class NutrientController {
     @Autowired
@@ -96,7 +96,7 @@ public class NutrientController {
 
     @ApiOperation(value="Alter a nutrient")
     @RequestMapping(method = RequestMethod.PUT, value="/products/{productId}/ingredients/{ingredientId}/nutrients/{id}")
-    public Nutrients updateNutrient(@RequestBody Nutrients nutrients,@PathVariable BigInteger id,@PathVariable BigInteger ingredientId,@PathVariable BigInteger productId,@PathVariable BigInteger orderId,@PathVariable BigInteger userId)throws  Exception {
+    public Nutrients updateNutrient(@RequestBody Nutrients nutrients,@PathVariable BigInteger id,@PathVariable BigInteger ingredientId,@PathVariable BigInteger productId)throws  Exception {
         nutrients.setIngredients(new Ingredients(ingredientId," ",productId));
         return nutrientService.updateNutrient(nutrients,id,ingredientId);
     }
